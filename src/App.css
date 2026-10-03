@@ -1,0 +1,645 @@
+/* General Formatting */
+
+
+    /* Generic Formatting */
+        /* Background colour */
+            body {
+                background-color: lightgray;
+                min-height: 100vh;
+
+            }
+
+        /* Centers all items inside of "center" */
+            .center {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1vh;
+            }
+
+    /* Reset to browser defaults */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+    /* All button outlines to have slight outline */
+        button {
+            appearance: none;
+            -webkit-appearance: none;
+
+            border: 2px solid black;
+            border-radius: 8px;
+        }
+
+
+
+    /* Food page formatting*/
+        /* Moves left items inside of center to the left side */
+        .food_left_items {
+            grid-column: 2;
+
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-top: 1.8vh;
+            padding-bottom: 1.8vh;
+            justify-content: space-between;
+
+        }
+
+        /* Moves mid items to mid */
+        .food_mid_objects {
+            grid-column: 4;
+
+            padding-top: 2.25vh;
+            padding-bottom: 2.25vh;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+        }
+
+        /* Moves right items inside of center to the right side */
+        .food_right_items {
+            grid-column: 6;
+
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            padding-top: 1.8vh;
+            padding-bottom: 1.8vh;
+            justify-content: space-between;
+
+        }
+
+        /* formatting of the breakfast, lunch, dinner ect pages */
+        .SelectPage {
+            display: grid;
+            width: 100%;
+            height: 100vh;
+            grid-template-rows: 5% 8% 2% 5% 1% 79%;
+            background-color: rgb(46, 72, 54);
+
+
+        }
+
+        /* category organization chunk within selectPage */
+        .category {
+            grid-row: 2;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            align-items: center;
+            justify-items: center;
+        }
+
+        /* Date organization chunk within selectPage */
+        .date {
+            grid-row: 4;
+            background-color: rgb(64, 193, 103);
+        }
+
+        /* Box for the food results */
+        .foodResults {
+            grid-row: 6;
+            grid-column: 1/4;
+            overflow-y: auto;
+        }
+
+        /* information of the food search result */
+        .foodResult {
+            width: 100%;
+            background: none;
+            display: grid;
+            grid-template-columns: 54% 1% 45%;
+            top: 0;
+            left: 0;
+            height: 8vh;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        /* page format of after you click on a searched food */
+        .selectedFood{
+            position: fixed;
+            display: grid;
+            grid-template-rows: 5% 6% 19% 10% 15% 35% 10%;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgb(157, 206, 132);
+        }
+
+        .calCalc{
+            position: grid;
+            display: grid;
+            grid-row: 4;
+            grid-template-columns: 50% 50%;
+
+            background-color: rgb(49, 59, 80);
+        }
+
+        .unitType {
+            position: grid;
+            grid-row: 5;
+            background-color: blueviolet;
+
+        }
+
+        .macros {
+            position: grid;
+            grid-row:6;
+        }
+
+    /* Workout Page */
+
+
+
+/* Shapes */
+
+    /* Food page shapes */
+        .food_green_box {
+            display: grid;
+            grid-template-columns: 5% 20% 5% 40% 5% 20% 5%;
+
+            width: 90vw;
+            height: 45vh;
+            background-color: rgb(64, 193, 103);
+            border-radius: 8px;
+        }
+
+        .food_blue_box {    
+            /* Box itself */
+            background-color: rgb(83, 122, 205);
+            color: rgb(0, 0, 0);
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+
+            /* Items in box */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 2vw;
+            justify-content: space-between;
+        }
+
+        .date_box {
+            display: flex;
+            width: 90vw;
+            height: 8vh;
+            background-color: rgb(128, 128, 128);
+            border-radius: 8px;
+        }
+
+        .weight_box {
+            display: flex;
+            width: 90vw;
+            height: 15vh;
+            background-color: rgb(64, 193, 103);
+            border-radius: 8px;
+        }
+
+        .goals_box {
+            display: flex;
+            width: 90vw;
+            height: 15vh;
+            background-color: rgb(64, 193, 103);
+            border-radius: 8px;
+        }
+
+        .menu_box {
+            display: flex;
+            position: relative;
+            width: 100vw;
+            height: 10vh;
+            background-color: rgb(44, 200, 150);
+        }   
+
+        .searchBar {
+            grid-row: 5;
+            grid-column: 1/4;
+            background-color: rgb(153, 194, 181);
+        }   
+
+        .searchBar input {
+            width: 100%;
+            height: 100%;
+
+            left: 1vh;
+            font-size: 3vh;
+            box-sizing: border-box;
+        }
+
+        .gramsBar {
+            position: grid;
+            grid-row: 1;
+        }
+
+
+    /* Workout page shapes */
+        .workout_red_box {
+            /* Makes box size */
+                width: 75vw;
+                height: 65vh;
+                background-color: rgb(228, 146, 121);
+                border-radius: 8px;
+
+            /* Formatting in box */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                
+        }
+
+/* page functions */
+    .food_area {
+        grid-row: 6;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        background-color: rgb(64, 193, 103);
+    }
+
+    /* page where you add the food with + symbol */
+    .addFoodPanel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgb(38, 38, 38);
+
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-rows: 5% 5% 2% 8% 7% 73%;
+    }
+
+    /* Call this to make something slide up*/
+    .slideUpAnimation {
+        animation: slideUp 0.15s ease-out;
+    }
+
+    /* Call this to make something slide up*/
+    .slideDownAnimation {
+        animation: slideDown 0.15s ease-out;
+    }
+
+    .slideLeftAnimation {
+        animation: slideLeft 0.15s ease-out;
+    }
+
+    .slideRightAnimation {
+        animation: slideRight 0.15s ease-out;
+    }
+
+
+    /* the literal animation we want when we choose to slide up */
+    @keyframes slideUp {
+        /* from being on the pixel right under the page*/
+        from { 
+            transform: translateY(100%);
+        }
+
+        /* brings it to the top*/
+        to {
+            transform: translateY(0);
+        }
+    }
+
+    /* the literal animation we want when we choose to slide down */
+    @keyframes slideDown {
+        /* from being on the pixel right under the page*/
+        from { 
+            transform: translateY(0);
+        }
+
+        /* brings it to the top*/
+        to {
+            transform: translateY(100%);
+        }
+    }
+
+    /* animation for slideLeft */
+    @keyframes slideLeft {
+        /* from being on the pixel right under the page*/
+        from { 
+            transform: translateX(100%);
+        }
+
+        /* brings it to the top*/
+        to {
+            transform: translateX(0);
+        }
+    }
+
+    /* animation for slideRight */
+    @keyframes slideRight {
+        /* from being on the pixel right under the page*/
+        from { 
+            transform: translateX(0);
+        }
+
+        /* brings it to the top*/
+        to {
+            transform: translateX(100%);
+        }
+    }
+
+    .userGrams{
+        background-color: blanchedalmond;
+        display: grid;
+        grid-template-rows: 75% 25%;
+        position: grid;
+        justify-self: start;
+        align-self: end;
+        height: 100%;
+        grid-column: 1;
+        padding: 1vh;
+
+    }
+
+    .userCalories{
+        position: grid;
+        justify-self: end;
+        align-self: end;
+
+        grid-column: 2;
+        padding: 1vh;
+        
+    }
+
+
+/* Buttons */
+
+    /* Food page buttons */
+    .food_green_box_button {        
+        background-color: gray;
+        color: white;
+        width: 100%;
+        height: 20%;
+        border-radius: 8px;
+    }
+
+    /* is a button to view all foods */
+    .view_all_food {    
+        /* Box itself */
+        background-color: rgb(177, 170, 33);
+        color: rgb(0, 0, 0);
+        width: 90%;
+        height: 10%;
+        border-radius: 8px;
+
+        font-size: clamp(12px, 1.5vw, 20px);
+    }
+
+    .menu_button { /* menu button visual */
+        width: 10vh;
+        height: 10vh;
+
+        font-size: clamp(24px, 10vw, 40px);
+        border: none;
+        background: transparent;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .menu_button:hover { /* hovering over the button visual */
+        background-color: gray;
+        transform: scale(1.05);
+    }
+
+    .menu a { /* The clickable links inside the menu */
+        display: block;
+        padding: 15px;
+        background-color: rgba(65, 79, 62, 0.9);
+        font-size: clamp(16px, 1.5vw, 22px);
+        color: white;
+    }
+
+    .menu { /* The actual popup menu */
+        position: fixed;
+        
+        top: 0;
+        left: 10vh;
+
+        width: 170px;
+    }
+
+    .backButton {
+        grid-column: 1;
+        justify-self: center;
+        width: 6vh;
+        height: 6vh;
+        font-size: 4vh;
+        border-radius: 50%;
+    }
+
+    .moreButton {
+        width: 6vh;
+        height: 6vh;
+        border-radius: 50%;
+        font-size: 4vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .addButton {
+
+        position: fixed;
+        right: 7vw;
+        bottom: 7vh;
+
+        width: 8vh;
+        height: 8vh;    
+
+        border-radius: 50%;
+        font-size: 7vh;
+
+    }
+
+    .closeButton {
+
+        grid-row: 2;
+        grid-column: 1;
+        position: relative;
+
+        top: 0;
+        left: 2vh;
+
+        width: 6vh;
+        height: 6vh;    
+
+        border-radius: 50%;
+        font-size: 4vh;
+
+    }
+
+    .closeSelected {
+
+        position: grid;
+        grid-row: 2;
+
+        top: 0;
+        left: 2vh;
+
+        width: 6vh;
+        height: 6vh;    
+
+        border-radius: 50%;
+        font-size: 4vh;
+
+    }
+
+    .unitButton{
+        width: 8vh;
+        height: 6vh;
+    }
+
+    .logButton{
+        position: grid;
+        grid-row: 7;
+
+        background-color: aliceblue;
+    }
+
+
+    /* Workout page buttons */
+
+
+/* Text sizes */
+
+    /* Page title text sizes */
+    h1 {
+        padding-top: 1vh;
+        color: blue;
+        font-size: 8vh;
+    }
+
+    .calories_title {
+        font-size: clamp(18px, 2.5vw, 32px);
+        font-weight: bold;
+    }
+
+    .calories_consumed {
+        font-size: clamp(20px, 3vw, 40px);
+        font-weight: bold;
+    }
+
+    .categoryFont {
+        grid-column: 2;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(64, 193, 103);
+        border-radius: 8px;
+        color: black;
+
+        font-family: Arial, sans-serif;
+        font-size: clamp(24px, 5vh, 48px);
+        font-weight: 600;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .foodSearchWord {
+        grid-row: 2;
+        grid-column: 2;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 4vh;
+        font-weight: 500;
+        color: white;
+    }
+
+    .bigSearchWord {
+        grid-row: 4;
+        grid-column: 1 / 4;  
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(69, 143, 212);
+
+        font-size: 5vh;
+        font-weight: 500;
+        color: white;
+    }
+
+    .foodName {
+        grid-column: 1;  
+        height: 8vh;
+        font-size: 2vh;
+        font-weight: 450;
+        color: white;
+    }
+
+    .foodStats {
+        display: grid;
+        grid-template-rows: 50% 50%;
+        grid-column: 3;  
+        align-items: center;
+    }
+
+    .calories {
+        position: grid;
+        grid-row: 1;
+        font-size: 3vh;
+        font-weight: 300;
+        color: rgb(0, 195, 255);
+
+    }
+
+    .foodGrams {
+        font-size: 2vh;
+        font-weight: 150;
+        color: rgb(0, 195, 255);
+        justify-self: center;
+
+    }
+
+    .selectedName {
+
+        background-color: aqua;
+
+        position: grid;
+        justify-self: start;
+        align-self: end;
+        grid-row: 3;
+        padding-bottom: 1vh;
+
+        font-size: 3vh;
+        font-weight: 500;
+        color: white;
+    }
+
+    .showGrams {
+        background-color: antiquewhite;
+        height: 100%;
+        position: grid;
+        grid-row: 2;
+
+    }
+    
+    /* Workout page text sizes */
+    .workout_word{
+        font-size: 9vw;
+        font-weight: bold;
+    }
+
+
+    
+
+
+
+
