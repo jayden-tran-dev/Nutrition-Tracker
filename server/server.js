@@ -33,7 +33,12 @@ app.get("/api/foods", async (req, res) => {
 
     // filter the data to only give us cal, pro, carb and fats
     const foods = data.products.map(product => ({
-        name: product.product_name,
+
+        // My food API sometimes will do, search for dorito, it only returns the word "cheese" with no context so, add searched food in name if doesn't exist
+        name: product.product_name?.toLowerCase().includes(product.brands?.toLowerCase())
+            ? product.product_name
+            : `${product.brands} ${product.product_name}`,   // backticks allow variables to be put in strings more conveniently  
+
         grams: product.product_quantity,
         calories: product.nutriments?.["energy-kcal_100g"],
         protein: product.nutriments?.["proteins_100g"],

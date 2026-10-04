@@ -15,12 +15,15 @@ function Breakfast() {
     const [showAddFood, setShowAddFood] = useState(false); // variable showAddFood with a current state of false and setShowAddFood changes it
     const [closingAddP, setClosingAddP] = useState(false); // variable to check in when closing page is on or off to play sliding down animation
     const [search, setSearch] = useState(""); // variable to hold the actual text we have in a search bar
-    const [foods, setFoods] = useState<Food[]>([]); // variable to hold searched information from the free API
+    const [foods, setFoods] = useState<Food[]>([]); // food array to hold searched information from the free API
     const [selectedFood, setSelectedFood] = useState<Food | null>(null); // variable selectedFood variable will hold either a food or nothing
     const [closingSelected, setClosingSelected] = useState(false); // variable to check if closing Selected page or not
     const [calcGrams, setCalcGrams] = useState(""); // variable to hold the actual amount of grams we want to calculate
+    const [loggedFoods, addLoggedFoods] = useState<Food[]>([]); // food array to hold logged foods
 
     const [calculatedFood, setCalculatedFood] = useState({ // another const to hold updated quantity of food macros
+        name: "",
+        grams: 0,
         calories: 0,
         protein: 0,
         carbs: 0,
@@ -49,6 +52,21 @@ function Breakfast() {
     };
 
     const loggedFood = () => {
+
+        // remove null case
+        if (selectedFood == null){
+            return;
+        }
+
+        // if user hasn't edited grams, add default, else then add edited. (... to not add arrays in loggedFoods array)
+        if (calcGrams === "") {
+            addLoggedFoods([...loggedFoods, selectedFood]);
+        } else {
+            addLoggedFoods([...loggedFoods, calculatedFood]);
+        }
+
+        setCalcGrams("");
+
         closeAddFood();
 
         setTimeout(() => {
@@ -81,6 +99,8 @@ function Breakfast() {
         const grams = Number(gramsInput);
 
         setCalculatedFood({
+            name: selectedFood.name,
+            grams: grams,
             calories: (grams / 100) * selectedFood.calories,
             protein: (grams / 100) * selectedFood.protein,
             carbs: (grams / 100) * selectedFood.carbs,
@@ -116,7 +136,21 @@ function Breakfast() {
             </p>
 
             {/* Bottom piece to control adding foods ect */}
-            <p className="food_area">Big space for 70% of other stuff
+            <div className="food_area">
+
+                {/* Whenever logged foods exist, display them here */}
+                <div className="loggedFoodsBox">
+
+                    {/* Map all loggedFoods with their macros ect in a div respective to their index*/}
+                    {loggedFoods.map((food, index) => (
+                        <div className="loggedFoods" key={index}>
+                            <h3>{food.name}</h3>
+                            <p>{food.calories} calories</p>
+                        </div>
+                    ))}
+                </div>
+
+
                 <button 
                     className = "addButton"
                     onClick={() => setShowAddFood(true)} // when clicked turn state to true
@@ -124,7 +158,9 @@ function Breakfast() {
                     {/* literal plus icon here */}
                     + 
                 </button>
-            </p>
+
+
+            </div>
 
             {/* When  setShowAddFood is True*/}
             {showAddFood && (
@@ -179,8 +215,9 @@ function Breakfast() {
                                         {Math.round(food.calories)} cals               
                                     </p>
                                     
+                                    {/* All macronutrients are currently based off 100g*/}
                                     <div className="foodGrams">                                
-                                        <p>{Math.round(food.grams)}g</p>
+                                        <p>100g</p>
                                     </div>
 
                                 </div>

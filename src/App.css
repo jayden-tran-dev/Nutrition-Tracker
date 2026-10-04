@@ -265,6 +265,20 @@
         background-color: rgb(64, 193, 103);
     }
 
+    .loggedFoodsBox {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    .loggedFoods {
+        width: 100%;
+        height: 8vh;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        background-color: rgb(64, 193, 103);
+    }
+
     /* page where you add the food with + symbol */
     .addFoodPanel {
         position: fixed;
