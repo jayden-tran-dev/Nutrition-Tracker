@@ -48,6 +48,14 @@ function Breakfast() {
         }, 140);
     };
 
+    const loggedFood = () => {
+        closeAddFood();
+
+        setTimeout(() => {
+            setSelectedFood(null);
+        }, 140);
+    };
+
     // searchFood variable that connects to the free openfoodfacts which is a free api, this uses my backend which is local 3000 for no CORS
     const searchFood = async () => {
         const response = await fetch(
@@ -188,7 +196,11 @@ function Breakfast() {
                         <div className={closingSelected ? "selectedFood slideRightAnimation" : "selectedFood slideLeftAnimation"}>
 
                             {/* When clicked, run function to close out of the page properly*/}
-                            <button className="closeButton" onClick={closeSelected}>
+                            <button 
+                                className="closeButton" 
+                                onClick={closeSelected}
+                            >
+
                                 X
                             </button>
 
@@ -283,7 +295,10 @@ function Breakfast() {
 
                             </div>
 
-                            <button className="logButton">
+                            <button 
+                                className="logButton"
+                                onClick={loggedFood}
+                            >
                                 Log
                             </button>
 
