@@ -1,12 +1,13 @@
 // Imports
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom"; // Tools from react-router-dom, (page navigation, holds routes, a route, go to this page)
+import { BrowserRouter, Routes, Route, useNavigate, useLocation} from "react-router-dom"; // Tools from react-router-dom, (page navigation, holds routes, a route, go to this page)
 import { useState } from "react"; // Enables state checking for things like menu
 import { Breakfast, Lunch, Dinner, Snacks, MyRecipes, CustomFoods, DietReview, Water} from "./pages"; // imports my pages
 import "./App.css"; // imports the css file I made before
 
 // A function that contains everything on the home page
 function Home() { 
-    const navigate = useNavigate(); // shortcut that replaces useNavigate() then takes user to yourwebsite.com/breakfast without doing a page reload somehow
+    const navigate = useNavigate(); // shortcut that replaces useNavigate() then takes user to yourwebsite.com/breakfast without doing a page reload 
+    const location = useLocation(); // same thing as navigate, comes from tools within react-router
     const [menuOpen, setMenuOpen] = useState(false); // creates menuOpen variable, uses the imported state from earlier to define if it is currently opened or not
 
     // returns all the items in here onto the actual screen
@@ -45,29 +46,45 @@ function Home() {
 
                 <div className="food_left_items">
                     <button 
-                        className="food_green_box_button"
-                        onClick={() => navigate("/MyRecipes")} 
+                        className="food_green_box_button"                    
+                        onClick={() => navigate("/myrecipes", {
+                            state: {
+                                backgroundLocation: location
+                            }
+                        })}      
                     >
                         My recipes
                     </button>
 
                     <button 
-                        className="food_green_box_button"
-                        onClick={() => navigate("/CustomFoods")} 
+                        className="food_green_box_button"                    
+                        onClick={() => navigate("/customfoods", {
+                            state: {
+                                backgroundLocation: location
+                            }
+                        })}      
                     >
                         Custom foods
                     </button>
 
                     <button 
-                        className="food_green_box_button"
-                        onClick={() => navigate("/DietReview")} 
+                        className="food_green_box_button"                    
+                        onClick={() => navigate("/dietreview", {
+                            state: {
+                                backgroundLocation: location
+                            }
+                        })}      
                     >
                         Diet review
                     </button>
 
                     <button 
                         className="food_green_box_button"
-                        onClick={() => navigate("/Water")} 
+                        onClick={() => navigate("/water", {
+                            state: {
+                                backgroundLocation: location
+                            }
+                        })}      
                     >
                         Water
                     </button>
@@ -95,7 +112,11 @@ function Home() {
                         // information/attributes to the button here
                         className="food_green_box_button"
                         // using one of the react router dom imports to reroute user to next place onClick
-                        onClick={() => navigate("/breakfast")} 
+                        onClick={() => navigate("/breakfast", {
+                            state: {
+                                backgroundLocation: location
+                            }
+                        })} 
                     >
                         {/* Literal stuff inside the button */}
                         Breakfast
@@ -103,21 +124,33 @@ function Home() {
 
                     <button 
                         className="food_green_box_button"
-                        onClick={() => navigate("/Lunch")}                     
+                        onClick={() => navigate("/lunch", {
+                            state: {
+                                backgroundLocation: location
+                            }
+                        })}            
                     >
                         Lunch
                     </button>
 
                     <button 
                         className="food_green_box_button"
-                        onClick={() => navigate("/Dinner")}                     
+                        onClick={() => navigate("/dinner", {
+                            state: {
+                                backgroundLocation: location
+                            }
+                        })}                        
                     >
                         Dinner
                     </button>
 
                     <button 
                         className="food_green_box_button"
-                        onClick={() => navigate("/Snacks")}  
+                        onClick={() => navigate("/snacks", {
+                            state: {
+                                backgroundLocation: location
+                            }
+                        })}            
                     >                   
                         Snacks
                     </button>
@@ -137,23 +170,50 @@ function Home() {
     );
 }
 
+// Function to control routes and page navigation
+function AppRoutes() {
+    const location = useLocation(); // contains information about current location
+
+    const backgroundLocation = location.state?.backgroundLocation; // created from onclick navigate(), when you swap pages, make the background page our current page, as long as it exist
+
+    return (
+        <> 
+            {/* reads location based off of if backgroundLocation exist or not*/}
+            {/* Routes is, display current route*/}
+            <Routes location={backgroundLocation || location}>
+                <Route path="/" element={<Home />} />
+                <Route path="/breakfast" element={<Breakfast />} />
+                <Route path="/lunch" element={<Lunch />} />
+                <Route path="/dinner" element={<Dinner />} />   
+                <Route path="/snacks" element={<Snacks />} />
+                <Route path="/customFoods" element={<CustomFoods />} />
+                <Route path="/myRecipes" element={<MyRecipes />} />
+                <Route path="/dietReview" element={<DietReview />} />
+                <Route path="/water" element={<Water />} />
+            </Routes>
+
+            {/* If background location exist, render the current route so it can go over the now background of current*/}
+            {backgroundLocation && (
+                <Routes>
+                    <Route path="/breakfast" element={<Breakfast />} />
+                    <Route path="/lunch" element={<Lunch />} />
+                    <Route path="/dinner" element={<Dinner />} />
+                    <Route path="/snacks" element={<Snacks />} />
+                    <Route path="/customfoods" element={<CustomFoods />} />
+                    <Route path="/myrecipes" element={<MyRecipes />} />
+                    <Route path="/dietreview" element={<DietReview />} />
+                    <Route path="/water" element={<Water />} />
+                </Routes>
+            )}
+        </>
+    );
+}
+
+// Basically says app is going to use the browser URL's and navigation history for routing
 function App() {
     return (
-        <BrowserRouter> {/* Tells computer we will use URL's to navigate */}
-            <Routes> {/* All the possible routes we can go to */}
-                <Route path="/" element={<Home />} />
-
-                <Route path="/breakfast" element={<Breakfast />} />
-                <Route path="/Lunch" element={<Lunch />} />
-                <Route path="/Dinner" element={<Dinner />} />
-                <Route path="/Snacks" element={<Snacks />} />
-                <Route path="/CustomFoods" element={<CustomFoods />} />
-                <Route path="/MyRecipes" element={<MyRecipes />} />
-                <Route path="/DietReview" element={<DietReview />} />
-                <Route path="/Water" element={<Water />} />
-                
-
-            </Routes>
+        <BrowserRouter>
+            <AppRoutes />
         </BrowserRouter>
     );
 }

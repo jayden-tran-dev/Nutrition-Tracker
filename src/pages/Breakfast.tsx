@@ -20,6 +20,8 @@ function Breakfast() {
     const [closingSelected, setClosingSelected] = useState(false); // variable to check if closing Selected page or not
     const [calcGrams, setCalcGrams] = useState(""); // variable to hold the actual amount of grams we want to calculate
     const [loggedFoods, addLoggedFoods] = useState<Food[]>([]); // food array to hold logged foods
+    const [closingMealPage, setClosingMealPage] = useState(false); // variable to check if closing Selected page or not
+
 
     const [calculatedFood, setCalculatedFood] = useState({ // another const to hold updated quantity of food macros
         name: "",
@@ -51,6 +53,15 @@ function Breakfast() {
         }, 140);
     };
 
+    const closeMealPage = () => {
+        setClosingMealPage(true); 
+
+        setTimeout(() => {
+            navigate(-1)
+            setClosingMealPage(false);
+        }, 140);
+    };
+
     const loggedFood = () => {
 
         // remove null case
@@ -77,9 +88,20 @@ function Breakfast() {
         }, 140);
     };
 
-    const totalCalories = loggedFoods.reduce(
-        (total, food) => total + food.calories,
-        0
+    // For all the logged foods, sum all calories and macros using reduce
+    const loggedTotals = loggedFoods.reduce(
+        (total, food) => ({
+            calories: total.calories + food.calories,
+            carbs: total.carbs + food.carbs,
+            protein: total.protein + food.protein,
+            fat: total.fat + food.fat
+        }),
+        {
+            calories: 0,
+            carbs: 0,
+            protein: 0,
+            fat: 0
+        }
     );
 
     // searchFood variable that connects to the free openfoodfacts which is a free api, this uses my backend which is local 3000 for no CORS
@@ -117,14 +139,14 @@ function Breakfast() {
     };
 
     return (
-        <div className="SelectPage">
+        <div className={closingMealPage == true ? "SelectPage slideRightAnimation" : "SelectPage slideLeftAnimation"}>
 
             {/* Top for category */}
             <div className="category">
 
                 <button 
                     className="backButton"
-                    onClick={() => navigate(-1)} // go back a page when clicked
+                    onClick={closeMealPage} // go back a page when clicked
                 >
                     &lt;
                 </button>
@@ -177,9 +199,16 @@ function Breakfast() {
                     </div>
 
                     <div className="wordtotalCals">
-                        {Math.round(totalCalories)} cals 
+                        {Math.round(loggedTotals.calories)} cals 
                     </div>
 
+                </div>
+
+                <div className="macroSumBox">
+                    <p className="wordMealMacros">Breakfast Macros</p>
+                    <p className="wordCarbs">Carbs: {Math.round(loggedTotals.carbs)}g</p>
+                    <p className="wordProtein">Protein: {Math.round(loggedTotals.protein)}g</p>
+                    <p className="wordFat">Fat: {Math.round(loggedTotals.fat)}g</p>
                 </div>
 
 
@@ -238,7 +267,9 @@ function Breakfast() {
                             >
                                 
                                 <div className="foodName">
-                                    {food.name}
+                                    <div className="foodNameText">
+                                        {food.name}
+                                    </div>
                                 </div>
 
                                 <div className="foodStats"> 
@@ -295,7 +326,7 @@ function Breakfast() {
 
                                     <h2 className="showGrams">
                                         {calcGrams === ""
-                                            ? Math.round(selectedFood.grams)
+                                            ? 100
                                             : calcGrams
                                         } grams
                                     </h2>
@@ -309,7 +340,7 @@ function Breakfast() {
                                         {calcGrams === ""
                                             ? Math.round(selectedFood.calories)
                                             : Math.round(calculatedFood.calories)
-                                        } calories
+                                        } calories  
                                     </h2>
                                     
                                 </div>
