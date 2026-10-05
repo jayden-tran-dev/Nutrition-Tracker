@@ -58,9 +58,12 @@ function Breakfast() {
             return;
         }
 
-        // if user hasn't edited grams, add default, else then add edited. (... to not add arrays in loggedFoods array)
+        // if user hasn't edited grams, add default 100g, else then add edited. (... to not add arrays in loggedFoods array)
         if (calcGrams === "") {
-            addLoggedFoods([...loggedFoods, selectedFood]);
+            addLoggedFoods([
+                ...loggedFoods,
+                { ...selectedFood, grams: 100 }
+            ]);
         } else {
             addLoggedFoods([...loggedFoods, calculatedFood]);
         }
@@ -73,6 +76,11 @@ function Breakfast() {
             setSelectedFood(null);
         }, 140);
     };
+
+    const totalCalories = loggedFoods.reduce(
+        (total, food) => total + food.calories,
+        0
+    );
 
     // searchFood variable that connects to the free openfoodfacts which is a free api, this uses my backend which is local 3000 for no CORS
     const searchFood = async () => {
@@ -138,16 +146,40 @@ function Breakfast() {
             {/* Bottom piece to control adding foods ect */}
             <div className="food_area">
 
-                {/* Whenever logged foods exist, display them here */}
-                <div className="loggedFoodsBox">
+                {/* Map all loggedFoods with their macros ect in a div respective to their index*/}
+                {loggedFoods.map((food, index) => (
+                    <div className="loggedFoods" key={index}>
+                        <h3 className="loggedName">
+                            {food.name}
+                        </h3>
 
-                    {/* Map all loggedFoods with their macros ect in a div respective to their index*/}
-                    {loggedFoods.map((food, index) => (
-                        <div className="loggedFoods" key={index}>
-                            <h3>{food.name}</h3>
-                            <p>{food.calories} calories</p>
+                        <div className="showLoggedCalQuan">
+
+                            <p className="loggedCalories">
+                                {Math.round(food.calories)} cals
+                            </p>
+
+                            <p className="loggedQuantity">
+                                {Math.round(food.grams)}g
+
+                            </p>
                         </div>
-                    ))}
+
+
+                    </div>
+                ))}
+
+
+                <div className="calorieSumBox">
+
+                    <div className="wordMealTotal"> 
+                        Breakfast Total
+                    </div>
+
+                    <div className="wordtotalCals">
+                        {Math.round(totalCalories)} cals 
+                    </div>
+
                 </div>
 
 

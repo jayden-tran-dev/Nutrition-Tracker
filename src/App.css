@@ -259,25 +259,88 @@
     .food_area {
         grid-row: 6;
         display: flex;
+        flex-direction: column;
         width: 100%;
-        height: 100%;
         position: relative;
         background-color: rgb(64, 193, 103);
-    }
-
-    .loggedFoodsBox {
-        width: 100%;
-        height: 100%;
         overflow-y: auto;
+
     }
 
     .loggedFoods {
+        display: grid;
+        grid-template-columns: 75% 25%;
         width: 100%;
         height: 8vh;
-        border: 1px solid #ccc;
+        flex-shrink: 0;
+        color: black;
+        border: 1px solid #000000;
         box-sizing: border-box;
         background-color: rgb(64, 193, 103);
     }
+
+    .loggedName {
+        position: grid;
+        grid-column: 1;
+        text-align: start;
+        display: flex;
+        align-items: center;
+        font-size: 2vh;
+        font-weight: 500;
+        padding-left: 2vw;
+
+
+    }
+
+    .showLoggedCalQuan{
+        position: grid;
+        grid-column: 2;
+        color: rgb(60, 13, 104);
+
+        display: grid;
+        grid-template-rows: 50% 50%;
+        padding-right: 2vw;
+
+    }
+
+    .loggedCalories {
+        grid-row: 1;
+        text-align: end;
+
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+
+        font-size: 2vh;
+        font-weight: 600;
+    }
+
+    .loggedQuantity {
+        grid-row: 2;
+        text-align: end;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-end;
+        font-size: 2vh;
+        font-weight: 600;
+    }
+
+    .calorieSumBox {
+        border: 2px solid #000000;
+        color: blue;
+        width: 100%;
+        height: 8vh;
+        flex-shrink: 0;
+        box-sizing: border-box;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        padding: 1vh;
+        font-size: 2.5vh;
+        font-weight: 600;
+        background-color: aqua;
+    }
+
+
 
     /* page where you add the food with + symbol */
     .addFoodPanel {
@@ -642,6 +705,22 @@
         height: 100%;
         position: grid;
         grid-row: 2;
+
+    }
+
+    .wordMealTotal {
+        grid: 1;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+
+    }
+
+    .wordtotalCals {
+        grid: 2;
+        display: flex;
+        justify-content: end;
+        align-items: center;
 
     }
     
