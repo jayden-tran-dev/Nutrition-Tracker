@@ -2,7 +2,26 @@
 import express from "express";
 import cors from "cors";
 
+// pool is to manage connections to SQL database
+import { Pool } from "pg"; // using package postgre, this line says, load package pg, grab pool that comes from it and put it into variable pool
+
 const app = express(); // creates an Express application instance, lets you use express
+
+const pool = new Pool({
+    user: "postgres",
+    password: "ASDpoi339$",
+    host: "localhost",
+    port: 5432,
+    database: "nutrition_tracker"
+});
+
+pool.query("SELECT NOW()", (error, result) => {
+    if (error) {
+        console.error("Database connection failed:", error);
+    } else {
+        console.log("Database connected:", result.rows[0]);
+    }
+});
 
 app.use(cors());
 
@@ -57,6 +76,18 @@ app.get("/api/foods", async (req, res) => {
     // take filtered data and send it to us
     res.json(foods);
 
+});
+
+// test route for PostgreSQL foods table
+app.get("/api/test-foods", async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM foods");
+
+        res.json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Database query failed" });
+    }
 });
 
 // waits to see that server works then lets me know on terminal whenever
