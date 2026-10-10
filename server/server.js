@@ -25,16 +25,16 @@ pool.query("SELECT NOW()", (error, result) => {
 
 app.use(cors());
 
-// gets user request, req holds info about visitor, response holds tools to send data back to visitor
+// when opening backend, send message to say it's working
 app.get("/", (req, res) => {
     res.send("Backend is working!");
 });
 
 // another get route but at /api/foods
 app.get("/api/foods", async (req, res) => {
-    const search = req.query.search; // extracts parameter from url, basically the string user typed
+    const search = req.query.search; // gets searched query
 
-    // requests to API, encodeURIComponent(search) makes sure special characters don't break URL, await just waits to make sure everything loads in order
+    // requests to API, encodeURIComponent(search) makes sure special characters don't break URL
     const response = await fetch(
         `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(search)}&json=1&page_size=25`
     );
@@ -47,7 +47,7 @@ app.get("/api/foods", async (req, res) => {
         });
     }
 
-    // reponse is fine now, convert to json and return result to us
+    // convert working response to .json()
     const data = await response.json();
 
     // filter the data to only give us cal, pro, carb and fats
@@ -59,7 +59,7 @@ app.get("/api/foods", async (req, res) => {
             : `${product.brands} ${product.product_name}`,   // backticks allow variables to be put in strings more conveniently  
 
         grams: product.product_quantity,
-        calories: product.nutriments?.["energy-kcal_100g"],
+        calories: product.nutriments?.["energy-kcal_100g"], // ?. means to safely access without crashing if DNE
         protein: product.nutriments?.["proteins_100g"],
         carbs: product.nutriments?.["carbohydrates_100g"],
         fat: product.nutriments?.["fat_100g"]

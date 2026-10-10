@@ -112,6 +112,7 @@ function Breakfast() {
 
         const data = await response.json();
 
+        // Make sure we only add Arraytypes since that is the state we are using
         if (Array.isArray(data)) {
             setFoods(data);
         } else {
@@ -402,15 +403,11 @@ function Breakfast() {
                                 Log
                             </button>
 
-
-
-
                         </div>
                     )}
 
                 </div>
             )}
-
 
         </div>
     );
