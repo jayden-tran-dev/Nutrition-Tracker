@@ -1,828 +1,712 @@
-/* General Formatting */
-
-
-    /* Generic Formatting */
-        /* Background colour */
-            body {
-                background-color: lightgray;
-                min-height: 100vh;
-
-            }
-
-        /* Centers all items inside of "center" */
-            .center {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 1vh;
-            }
-
-    /* Reset to browser defaults */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-    /* All button outlines to have slight outline */
-        button {
-            appearance: none;
-            -webkit-appearance: none;
-
-            border: 2px solid black;
-        }
-
-
-
-    /* Food page formatting*/
-        /* Moves left items inside of center to the left side */
-        .food_left_items {
-            grid-column: 2;
-
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding-top: 1.8vh;
-            padding-bottom: 1.8vh;
-            justify-content: space-between;
-
-        }
-
-        /* Moves mid items to mid */
-        .food_mid_objects {
-            grid-column: 4;
-
-            padding-top: 2.25vh;
-            padding-bottom: 2.25vh;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-        }
-
-        /* Moves right items inside of center to the right side */
-        .food_right_items {
-            grid-column: 6;
-
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            padding-top: 1.8vh;
-            padding-bottom: 1.8vh;
-            justify-content: space-between;
-
-        }
-
-        /* formatting of the breakfast, lunch, dinner ect pages */
-        .SelectPage {
-            display: grid;
-            width: 100%;
-            height: 100vh;
-            grid-template-rows: 5% 8% 2% 5% 1% 79%;
-            background-color: rgb(46, 72, 54);
-
-            /* When you render this page, make sure it comes in based off actual screen*/
-            position: fixed;
-            top: 0;
-            left: 0;
-
-        }
-
-        /* category organization chunk within selectPage */
-        .category {
-            grid-row: 2;
-            display: grid;
-            grid-template-columns: 1fr 2fr 1fr;
-            align-items: center;
-            justify-items: center;
-        }
-
-        /* Date organization chunk within selectPage */
-        .date {
-            grid-row: 4;
-            background-color: rgb(64, 193, 103);
-        }
-
-        /* Box for the food results */
-        .foodResults {
-            grid-row: 6;
-            grid-column: 1/4;
-            overflow-y: auto;
-        }
-
-        /* information of the food search result */
-        .foodResult {
-            width: 100%;
-            background: none;
-            display: grid;
-            grid-template-columns: 69% 1% 30%;
-            top: 0;
-            left: 0;
-            height: 8vh;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-
-        /* page format of after you click on a searched food */
-        .selectedFood{
-            position: fixed;
-            display: grid;
-            grid-template-rows: 5% 6% 19% 10% 15% 35% 10%;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgb(157, 206, 132);
-        }
-
-        .calCalc{
-            position: grid;
-            display: grid;
-            grid-row: 4;
-            grid-template-columns: 50% 50%;
-
-            background-color: rgb(49, 59, 80);
-        }
-
-        .unitType {
-            position: grid;
-            grid-row: 5;
-            background-color: blueviolet;
-
-        }
-
-        .macros {
-            position: grid;
-            grid-row:6;
-        }
-
-        .macroSumBox {
-            display: grid;
-            grid-template-rows: 1fr 1fr 1fr 1fr;
-            height: 24vh;
-            flex-shrink: 0;
-            font-size: 3vh;
-            font-weight: 500;
-            background-color: rgb(63, 169, 255);
-            color: black;
-            border: 1px solid #000000;
-            padding-left: 2vh;
-        }
-
-    /* Workout Page */
-
-
-
-/* Shapes */
-
-    /* Food page shapes */
-        .food_green_box {
-            display: grid;
-            grid-template-columns: 5% 20% 5% 40% 5% 20% 5%;
-
-            width: 90vw;
-            height: 45vh;
-            background-color: rgb(64, 193, 103);
-            border-radius: 8px;
-        }
-
-        .food_blue_box {    
-            /* Box itself */
-            background-color: rgb(83, 122, 205);
-            color: rgb(0, 0, 0);
-            width: 100%;
-            height: 100%;
-            border-radius: 8px;
-
-            /* Items in box */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 2vw;
-            justify-content: space-between;
-        }
-
-        .date_box {
-            display: flex;
-            width: 90vw;
-            height: 8vh;
-            background-color: rgb(128, 128, 128);
-            border-radius: 8px;
-        }
-
-        .weight_box {
-            display: flex;
-            width: 90vw;
-            height: 15vh;
-            background-color: rgb(64, 193, 103);
-            border-radius: 8px;
-        }
-
-        .goals_box {
-            display: flex;
-            width: 90vw;
-            height: 15vh;
-            background-color: rgb(64, 193, 103);
-            border-radius: 8px;
-        }
-
-        .menu_box {
-            display: flex;
-            position: relative;
-            width: 100vw;
-            height: 10vh;
-            background-color: rgb(44, 200, 150);
-        }   
-
-        .searchBar {
-            grid-row: 5;
-            grid-column: 1/4;
-            background-color: rgb(153, 194, 181);
-        }   
-
-        .searchBar input {
-            width: 100%;
-            height: 100%;
-
-            left: 1vh;
-            font-size: 3vh;
-            box-sizing: border-box;
-        }
-
-        .gramsBar {
-            position: grid;
-            grid-row: 1;
-        }
-
-
-    /* Workout page shapes */
-        .workout_red_box {
-            /* Makes box size */
-                width: 75vw;
-                height: 65vh;
-                background-color: rgb(228, 146, 121);
-                border-radius: 8px;
-
-            /* Formatting in box */
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                
-        }
-
-/* page functions */
-    .food_area {
-        grid-row: 6;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        position: relative;
-        background-color: rgb(64, 193, 103);
-        overflow-y: auto;
-
-    }
-
-    .loggedFoods {
-        display: grid;
-        grid-template-columns: 75% 25%;
-        width: 100%;
-        height: 8vh;
-        flex-shrink: 0;
-        color: black;
-        border: 1px solid #000000;
-        box-sizing: border-box;
-        background-color: rgb(64, 193, 103);
-    }
-
-    .loggedName {
-        position: grid;
-        grid-column: 1;
-        text-align: start;
-        display: flex;
-        align-items: center;
-        font-size: 2vh;
-        font-weight: 500;
-        padding-left: 2vw;
-
-
-    }
-
-    .showLoggedCalQuan{
-        position: grid;
-        grid-column: 2;
-        color: rgb(60, 13, 104);
-
-        display: grid;
-        grid-template-rows: 50% 50%;
-        padding-right: 2vw;
-
-    }
-
-    .loggedCalories {
-        grid-row: 1;
-        text-align: end;
-
-        display: flex;
-        align-items: flex-end;
-        justify-content: flex-end;
-
-        font-size: 2vh;
-        font-weight: 600;
-    }
-
-    .loggedQuantity {
-        grid-row: 2;
-        text-align: end;
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-end;
-        font-size: 2vh;
-        font-weight: 600;
-    }
-
-    .calorieSumBox {
-        border: 2px solid #000000;
-        color: blue;
-        width: 100%;
-        height: 8vh;
-        flex-shrink: 0;
-        box-sizing: border-box;
-        display: grid;
-        grid-template-columns: 50% 50%;
-        padding: 1vh;
-        font-size: 2.5vh;
-        font-weight: 600;
-        background-color: aqua;
-    }
-
-
-
-    /* page where you add the food with + symbol */
-    .addFoodPanel {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgb(38, 38, 38);
-
-        display: grid;
-        grid-template-columns: 1fr 2fr 1fr;
-        grid-template-rows: 5% 5% 2% 8% 7% 73%;
-    }
-
-    /* Call this to make something slide up*/
-    .slideUpAnimation {
-        animation: slideUp 0.15s ease-out;
-    }
-
-    /* Call this to make something slide up*/
-    .slideDownAnimation {
-        animation: slideDown 0.15s ease-out;
-    }
-
-    .slideLeftAnimation {
-        animation: slideLeft 0.15s ease-out;
-    }
-
-    .slideRightAnimation {
-        animation: slideRight 0.15s ease-out;
-    }
-
-
-    /* the literal animation we want when we choose to slide up */
-    @keyframes slideUp {
-        /* from being on the pixel right under the page*/
-        from { 
-            transform: translateY(100%);
-        }
-
-        /* brings it to the top*/
-        to {
-            transform: translateY(0);
-        }
-    }
-
-    /* the literal animation we want when we choose to slide down */
-    @keyframes slideDown {
-        /* from being on the pixel right under the page*/
-        from { 
-            transform: translateY(0);
-        }
-
-        /* brings it to the top*/
-        to {
-            transform: translateY(100%);
-        }
-    }
-
-    /* animation for slideLeft */
-    @keyframes slideLeft {
-        /* from being on the pixel right under the page*/
-        from { 
-            transform: translateX(100%);
-        }
-
-        /* brings it to the top*/
-        to {
-            transform: translateX(0);
-        }
-    }
-
-    /* animation for slideRight */
-    @keyframes slideRight {
-        /* from being on the pixel right under the page*/
-        from { 
-            transform: translateX(0);
-        }
-
-        /* brings it to the top*/
-        to {
-            transform: translateX(100%);
-        }
-    }
-
-    .userGrams{
-        background-color: blanchedalmond;
-        display: grid;
-        grid-template-rows: 75% 25%;
-        position: grid;
-        justify-self: start;
-        align-self: end;
-        height: 100%;
-        grid-column: 1;
-        padding: 1vh;
-
-    }
-
-    .userCalories{
-        position: grid;
-        justify-self: end;
-        align-self: end;
-
-        grid-column: 2;
-        padding: 1vh;
-        
-    }
-
-
-/* Buttons */
-
-    /* Food page buttons */
-    .food_green_box_button {        
-        background-color: gray;
-        color: white;
-        width: 100%;
-        height: 20%;
-        border-radius: 8px;
-    }
-
-    /* is a button to view all foods */
-    .view_all_food {    
-        /* Box itself */
-        background-color: rgb(177, 170, 33);
-        color: rgb(0, 0, 0);
-        width: 90%;
-        height: 10%;
-        border-radius: 8px;
-
-        font-size: clamp(12px, 1.5vw, 20px);
-    }
-
-    .menu_button { /* menu button visual */
-        width: 10vh;
-        height: 10vh;
-
-        font-size: clamp(24px, 10vw, 40px);
-        border: none;
-        background: transparent;
-        color: white;
-        border-radius: 8px;
-        cursor: pointer;
-    }
-
-    .menu_button:hover { /* hovering over the button visual */
-        background-color: gray;
-        transform: scale(1.05);
-    }
-
-    .menu a { /* The clickable links inside the menu */
-        display: block;
-        padding: 15px;
-        background-color: rgba(65, 79, 62, 0.9);
-        font-size: clamp(16px, 1.5vw, 22px);
-        color: white;
-    }
-
-    .menu { /* The actual popup menu */
-        position: fixed;
-        
-        top: 0;
-        left: 10vh;
-
-        width: 170px;
-    }
-
-    .backButton {
-        grid-column: 1;
-        justify-self: center;
-        width: 6vh;
-        height: 6vh;
-        font-size: 4vh;
-        border-radius: 50%;
-    }
-
-    .moreButton {
-        width: 6vh;
-        height: 6vh;
-        border-radius: 50%;
-        font-size: 4vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .addButton {
-
-        position: fixed;
-        right: 7vw;
-        bottom: 7vh;
-
-        width: 8vh;
-        height: 8vh;    
-
-        border-radius: 50%;
-        font-size: 7vh;
-
-    }
-
-    .closeButton {
-
-        grid-row: 2;
-        grid-column: 1;
-        position: relative;
-
-        top: 0;
-        left: 2vh;
-
-        width: 6vh;
-        height: 6vh;    
-
-        border-radius: 50%;
-        font-size: 4vh;
-
-    }
-
-    .closeSelected {
-
-        position: grid;
-        grid-row: 2;
-
-        top: 0;
-        left: 2vh;
-
-        width: 6vh;
-        height: 6vh;    
-
-        border-radius: 50%;
-        font-size: 4vh;
-
-    }
-
-    .unitButton{
-        width: 8vh;
-        height: 6vh;
-    }
-
-    .logButton{
-        position: grid;
-        grid-row: 7;
-
-        background-color: aliceblue;
-    }
-
-
-    /* Workout page buttons */
-
-
-/* Text sizes */
-
-    /* Page title text sizes */
-    h1 {
-        padding-top: 1vh;
-        color: blue;
-        font-size: 8vh;
-    }
-
-    .calories_title {
-        font-size: clamp(18px, 2.5vw, 32px);
-        font-weight: bold;
-    }
-
-    .calories_consumed {
-        font-size: clamp(20px, 3vw, 40px);
-        font-weight: bold;
-    }
-
-    .categoryFont {
-        grid-column: 2;
-        width: 100%;
-        height: 100%;
-        background-color: rgb(64, 193, 103);
-        border-radius: 8px;
-        color: black;
-
-        font-family: Arial, sans-serif;
-        font-size: clamp(24px, 5vh, 48px);
-        font-weight: 600;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .foodSearchWord {
-        grid-row: 2;
-        grid-column: 2;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        font-size: 4vh;
-        font-weight: 500;
-        color: white;
-    }
-
-    .bigSearchWord {
-        grid-row: 4;
-        grid-column: 1 / 4;  
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: rgb(69, 143, 212);
-
-        font-size: 5vh;
-        font-weight: 500;
-        color: white;
-    }
-
-    .foodName {
-        grid-column: 1;
-        height: 8vh;
-        padding: 1vh;
-        display: flex;
-        align-items: center;
-    }
-
-    .foodNameText {
-        font-size: 2vh;
-        font-weight: 450;
-        color: white;
-        line-height: 3.1vh;
-
-        display: -webkit-box;
-        line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-
-        text-align: left;
-    }
-
-    .foodStats {
-        display: grid;
-        padding: 1vh;
-        padding-right: 2vh;
-        grid-template-rows: 50% 50%;
-        grid-column: 3;  
-        align-items: center;
-
-    }
-
-    .calories {
-        grid-row: 1;
-        font-size: 2.5vh;
-        font-weight: 300;
-        color: rgb(0, 195, 255);
-        justify-self: end;
-
-    }
-
-    .foodGrams {
-        grid-row: 2;
-        font-size: 2vh;
-        font-weight: 150;
-        color: rgb(0, 195, 255);
-        justify-self: end;
-
-    }
-
-    .selectedName {
-
-        background-color: aqua;
-
-        position: grid;
-        justify-self: start;
-        align-self: end;
-        grid-row: 3;
-        padding-bottom: 1vh;
-
-        font-size: 3vh;
-        font-weight: 500;
-        color: white;
-    }
-
-    .showGrams {
-        background-color: antiquewhite;
-        height: 100%;
-        position: grid;
-        grid-row: 2;
-
-    }
-
-    .wordMealTotal {
-        grid: 1;
-        display: flex;
-        justify-content: start;
-        align-items: center;
-
-    }
-
-    .wordtotalCals {
-        grid: 2;
-        display: flex;
-        justify-content: end;
-        align-items: center;
-
-    }
-
-
-    /* Come back later to make the bar fill according to personal preference on total macros user desires*/
-    .wordCarbs{
-        display: flex;
-        align-items: center;
-        justify-self: center;
-        padding-left: 1vh;
-        background-color: rgb(31, 255, 124);
-        grid-row: 2;
-        width: 95%;
-        height: 80%;
-        border: 1px solid #000000;
-        border-radius: 8px;
-
-    }
-
-    .wordProtein{
-        background-color: rgb(184, 32, 255);
-        display: flex;
-        align-items: center;
-        justify-self: center;
-        padding-left: 1vh;
-        grid-row: 3;
-        width: 95%;
-        height: 80%;
-        border: 1px solid #000000;
-        border-radius: 8px;
-
-    }
-
-    .wordFat{
-        background-color: rgb(255, 166, 32);
-        display: flex;
-        align-items: center;
-        justify-self: center;
-        padding-left: 1vh;
-        grid-row: 4;
-        width: 95%;
-        height: 80%;
-        border: 1px solid #000000;    
-        border-radius: 8px;
-    
-    }
-
-    .wordMealMacros{
-        grid-row: 1;
-        font-size: 6;
-        font-weight: 600;
-        color: yellow;
-        display: flex;  
-        align-items: center;
-        
-    }
-    
-
-
-    /* Workout page text sizes */
-    .workout_word{
-        font-size: 9vw;
-        font-weight: bold;
-    }
-
-
-    
-
-
-
-
+/* ========================================
+   1. Reset and Global Styles
+   ======================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background-color: lightgray;
+}
+
+h1 {
+  padding-top: 1vh;
+  color: blue;
+  font-size: 8vh;
+}
+
+button {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 2px solid black;
+}
+
+/* ========================================
+   2. Home Page
+   ======================================== */
+
+/* Home Page Center Alignment */
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1vh;
+}
+
+/* Menu Button Section */
+.menu-container {
+  position: relative;
+  display: flex;
+  width: 100vw;
+  height: 10vh;
+  background-color: rgb(44, 200, 150);
+}
+
+.menu-button {
+  width: 10vh;
+  height: 10vh;
+  background: transparent;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: clamp(24px, 10vw, 40px);
+  cursor: pointer;
+}
+
+.menu-button:hover {
+  background-color: gray;
+  transform: scale(1.05);
+}
+
+.menu-dropdown {
+  position: fixed;
+  top: 0;
+  left: 10vh;
+  width: 170px;
+}
+
+.menu-dropdown a {
+  display: block;
+  padding: 15px;
+  background-color: rgba(65, 79, 62, 0.9);
+  color: white;
+  font-size: clamp(16px, 1.5vw, 22px);
+}
+
+/* Date Section */
+.date-section {
+  display: flex;
+  width: 90vw;
+  height: 8vh;
+  background-color: rgb(128, 128, 128);
+  border-radius: 8px;
+}
+
+.date-title {
+  font-size: clamp(18px, 2.5vw, 32px);
+  font-weight: bold;
+}
+
+/* Dashboard Layout Section */
+.food-dashboard {
+  display: grid;
+  grid-template-columns: 5% 20% 5% 40% 5% 20% 5%;
+  width: 90vw;
+  height: 45vh;
+  background-color: rgb(64, 193, 103);
+  border-radius: 8px;
+}
+
+/* Dashboard Layout Columns */
+.utility-navigation {
+  display: flex;
+  flex-direction: column;
+  grid-column: 2;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-top: 1.8vh;
+  padding-bottom: 1.8vh;
+}
+
+.calorie-summary-section {
+  display: flex;
+  flex-direction: column;
+  grid-column: 4;
+  align-items: center;
+  padding-top: 2.25vh;
+  padding-bottom: 2.25vh;
+}
+
+.meal-navigation {
+  display: flex;
+  flex-direction: column;
+  grid-column: 6;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-top: 1.8vh;
+  padding-bottom: 1.8vh;
+}
+
+/* Calorie Summary */
+.calorie-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(83, 122, 205);
+  color: rgb(0, 0, 0);
+  border-radius: 8px;
+  font-size: 2vw;
+}
+
+.calories-title {
+  font-size: clamp(18px, 2.5vw, 32px);
+  font-weight: bold;
+}
+
+.calories-consumed {
+  font-size: clamp(20px, 3vw, 40px);
+  font-weight: bold;
+}
+
+.view-todays-food-button {
+  width: 90%;
+  height: 10%;
+  background-color: rgb(177, 170, 33);
+  color: rgb(0, 0, 0);
+  border-radius: 8px;
+  font-size: clamp(12px, 1.5vw, 20px);
+}
+
+/* Weight And Goals Sections */
+.weight-section,
+.goals-section {
+  display: flex;
+  width: 90vw;
+  height: 15vh;
+  background-color: rgb(64, 193, 103);
+  border-radius: 8px;
+}
+
+/* Shared Buttons */
+.dashboard-button {
+  width: 100%;
+  height: 20%;
+  background-color: gray;
+  color: white;
+  border-radius: 8px;
+}
+
+/* ========================================
+   3. Meal Type Page
+   ======================================== */
+
+/* Meal Page Layout */
+.meal-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: grid;
+  grid-template-rows: 5% 8% 2% 5% 1% 79%;
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(46, 72, 54);
+}
+
+/* Selected Meal Bar Section */
+.selected-meal-bar {
+  display: grid;
+  grid-row: 2;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  justify-items: center;
+}
+
+.back-button {
+  grid-column: 1;
+  justify-self: center;
+  width: 6vh;
+  height: 6vh;
+  border-radius: 50%;
+  font-size: 4vh;
+}
+
+.selected-meal-name {
+  display: flex;
+  grid-column: 2;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(64, 193, 103);
+  border-radius: 8px;
+  color: black;
+  font-family: Arial, sans-serif;
+  font-size: clamp(24px, 5vh, 48px);
+  font-weight: 600;
+}
+
+.more-button {
+  display: flex;
+  grid-column: 3;
+  align-items: center;
+  justify-content: center;
+  width: 6vh;
+  height: 6vh;
+  border-radius: 50%;
+  font-size: 4vh;
+}
+
+/* Date Section */
+.date {
+  grid-row: 4;
+  background-color: rgb(64, 193, 103);
+}
+
+/* Logged Food Section */
+.logged-food-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  grid-row: 6;
+  width: 100%;
+  background-color: rgb(64, 193, 103);
+  overflow-y: auto;
+}
+
+.logged-foods {
+  display: grid;
+  grid-template-columns: 75% 25%;
+  width: 100%;
+  height: 8vh;
+  flex-shrink: 0;
+  background-color: rgb(64, 193, 103);
+  color: black;
+  border: 1px solid #000000;
+}
+
+.logged-name {
+  display: flex;
+  grid-column: 1;
+  align-items: center;
+  padding-left: 2vw;
+  font-size: 2vh;
+  font-weight: 500;
+  text-align: start;
+}
+
+.show-logged-cal-quan {
+  display: grid;
+  grid-column: 2;
+  grid-template-rows: 50% 50%;
+  padding-right: 2vw;
+  color: rgb(60, 13, 104);
+}
+
+.logged-calories {
+  display: flex;
+  grid-row: 1;
+  align-items: flex-end;
+  justify-content: flex-end;
+  font-size: 2vh;
+  font-weight: 600;
+  text-align: end;
+}
+
+.logged-quantity {
+  display: flex;
+  grid-row: 2;
+  align-items: flex-start;
+  justify-content: flex-end;
+  font-size: 2vh;
+  font-weight: 600;
+  text-align: end;
+}
+
+/* Calorie Sum Section */
+.calorie-sum-box {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 100%;
+  height: 8vh;
+  flex-shrink: 0;
+  padding: 1vh;
+  background-color: aqua;
+  color: blue;
+  border: 2px solid #000000;
+  font-size: 2.5vh;
+  font-weight: 600;
+}
+
+.word-meal-total {
+  display: flex;
+  grid-column: 1;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.word-total-cals {
+  display: flex;
+  grid-column: 2;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Macronutrient Summary Section */
+.macro-sum-box {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  height: 24vh;
+  flex-shrink: 0;
+  padding-left: 2vh;
+  background-color: rgb(63, 169, 255);
+  color: black;
+  border: 1px solid #000000;
+  font-size: 3vh;
+  font-weight: 500;
+}
+
+.word-meal-macros {
+  display: flex;
+  grid-row: 1;
+  align-items: center;
+  color: yellow;
+  font-size: 3vh;
+  font-weight: 600;
+}
+
+.word-carbs,
+.word-protein,
+.word-fat {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  width: 95%;
+  height: 80%;
+  padding-left: 1vh;
+  border: 1px solid #000000;
+  border-radius: 8px;
+}
+
+.word-carbs {
+  grid-row: 2;
+  background-color: rgb(31, 255, 124);
+}
+
+.word-protein {
+  grid-row: 3;
+  background-color: rgb(184, 32, 255);
+}
+
+.word-fat {
+  grid-row: 4;
+  background-color: rgb(255, 166, 32);
+}
+
+/* Add Food Button */
+.add-button {
+  position: fixed;
+  right: 7vw;
+  bottom: 7vh;
+  width: 8vh;
+  height: 8vh;
+  border-radius: 50%;
+  font-size: 7vh;
+}
+
+/* ========================================
+   4. Search Foods Page
+   ======================================== */
+
+/* Search Foods Page Layout */
+.add-food-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 5% 5% 2% 8% 7% 73%;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(38, 38, 38);
+}
+
+/* "Food Search" Heading Section */
+.food-search-word {
+  display: flex;
+  grid-row: 2;
+  grid-column: 2;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 4vh;
+  font-weight: 500;
+}
+
+/* "Search" Section */
+.big-search-word {
+  display: flex;
+  grid-row: 4;
+  grid-column: 1 / 4;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(69, 143, 212);
+  color: white;
+  font-size: 5vh;
+  font-weight: 500;
+}
+
+/* Search Bar Section */
+.search-bar {
+  grid-row: 5;
+  grid-column: 1 / 4;
+  background-color: rgb(153, 194, 181);
+}
+
+.search-bar input {
+  width: 100%;
+  height: 100%;
+  left: 1vh;
+  font-size: 3vh;
+}
+
+/* Food Search Results Section */
+.food-results {
+  grid-row: 6;
+  grid-column: 1 / 4;
+  overflow-y: auto;
+}
+
+.food-result {
+  display: grid;
+  grid-template-columns: 69% 1% 30%;
+  width: 100%;
+  height: 8vh;
+  background: none;
+  border: 1px solid #ccc;
+}
+
+.food-name {
+  display: flex;
+  grid-column: 1;
+  align-items: center;
+  height: 8vh;
+  padding: 1vh;
+}
+
+.food-name-text {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  color: white;
+  font-size: 2vh;
+  font-weight: 450;
+  line-height: 3.1vh;
+  text-align: left;
+}
+
+.food-stats {
+  display: grid;
+  grid-column: 3;
+  grid-template-rows: 50% 50%;
+  align-items: center;
+  padding: 1vh;
+  padding-right: 2vh;
+}
+
+.calories {
+  grid-row: 1;
+  justify-self: end;
+  color: rgb(0, 195, 255);
+  font-size: 2.5vh;
+  font-weight: 300;
+}
+
+.food-grams {
+  grid-row: 2;
+  justify-self: end;
+  color: rgb(0, 195, 255);
+  font-size: 2vh;
+  font-weight: 150;
+}
+
+/* Closing Food Search Panel Button */
+.close-food-search-button {
+  position: relative;
+  top: 0;
+  left: 2vh;
+  grid-row: 2;
+  grid-column: 1;
+  width: 6vh;
+  height: 6vh;
+  border-radius: 50%;
+  font-size: 4vh;
+}
+
+/* ========================================
+   5. Food Logging Panel
+   ======================================== */
+
+/* Food Logging Panel Layout */
+.selected-food {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: grid;
+  grid-template-rows: 5% 6% 19% 10% 15% 35% 10%;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(157, 206, 132);
+}
+
+/* Selected Food Name Section */
+.selected-name {
+  display: grid;
+  grid-row: 3;
+  justify-self: start;
+  align-self: end;
+  padding-bottom: 1vh;
+  background-color: aqua;
+  color: white;
+  font-size: 3vh;
+  font-weight: 500;
+}
+
+/* Calculated Units To Calories Section */
+.cal-calc {
+  display: grid;
+  grid-row: 4;
+  grid-template-columns: 50% 50%;
+  background-color: rgb(49, 59, 80);
+}
+
+.show-grams {
+  grid-row: 2;
+  height: 100%;
+  background-color: antiquewhite;
+}
+
+.grams-bar {
+  grid-row: 1;
+}
+
+.user-grams {
+  display: grid;
+  grid-column: 1;
+  grid-template-rows: 75% 25%;
+  justify-self: start;
+  align-self: end;
+  height: 100%;
+  padding: 1vh;
+  background-color: blanchedalmond;
+}
+
+.user-calories {
+  grid-column: 2;
+  justify-self: end;
+  align-self: end;
+  padding: 1vh;
+}
+
+/* Unit Type Section */
+.unit-type {
+  grid-row: 5;
+  background-color: blueviolet;
+}
+
+.unit-button {
+  width: 8vh;
+  height: 6vh;
+}
+
+/* Food Macronutrient Section */
+.macros {
+  grid-row: 6;
+}
+
+/* Log Food Button */
+.log-button {
+  grid-row: 7;
+  background-color: aliceblue;
+}
+
+/* Close Logging Food Page Button */
+.close-logging-food-button {
+  position: relative;
+  top: 0;
+  left: 2vh;
+  grid-row: 2;
+  grid-column: 1;
+  width: 6vh;
+  height: 6vh;
+  border-radius: 50%;
+  font-size: 4vh;
+}
+
+/* ========================================
+   6. Workout Page (In progress)
+   ======================================== */
+
+.workout_red_box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 75vw;
+  height: 65vh;
+  background-color: rgb(228, 146, 121);
+  border-radius: 8px;
+}
+
+.workout_word {
+  font-size: 9vw;
+  font-weight: bold;
+}
+
+/* ========================================
+   7. Animations
+   ======================================== */
+
+/* Animation Classes */
+.slide-up-animation {
+  animation: slideUp 0.15s ease-out;
+}
+
+.slide-down-animation {
+  animation: slideDown 0.15s ease-out;
+}
+
+.slide-left-animation {
+  animation: slideLeft 0.15s ease-out;
+}
+
+.slide-right-animation {
+  animation: slideRight 0.15s ease-out;
+}
+
+/* Vertical Animations */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(100%);
+  }
+}
+
+/* Horizontal Animations */
+@keyframes slideLeft {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}

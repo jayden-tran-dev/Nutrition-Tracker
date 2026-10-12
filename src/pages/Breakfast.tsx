@@ -1,416 +1,352 @@
-import { useNavigate } from "react-router-dom"; // add browser navigation to this page
-import { useState } from "react"; // importing states for pull up panel specifically
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 type Food = {
-    name: string;
-    grams: number;
-    calories: number;
-    protein: number;
-    carbs: number;
-    fat: number;
+  name: string;
+  grams: number;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
 };
 
+// Main breakfast page
 function Breakfast() {
-    const navigate = useNavigate(); // create navigate function using Navigate import to move between pages
-    const [showAddFood, setShowAddFood] = useState(false); // variable showAddFood with a current state of false and setShowAddFood changes it
-    const [closingAddP, setClosingAddP] = useState(false); // variable to check in when closing page is on or off to play sliding down animation
-    const [search, setSearch] = useState(""); // variable to hold the actual text we have in a search bar
-    const [foods, setFoods] = useState<Food[]>([]); // food array to hold searched information from the free API
-    const [selectedFood, setSelectedFood] = useState<Food | null>(null); // variable selectedFood variable will hold either a food or nothing
-    const [closingSelected, setClosingSelected] = useState(false); // variable to check if closing Selected page or not
-    const [calcGrams, setCalcGrams] = useState(""); // variable to hold the actual amount of grams we want to calculate
-    const [loggedFoods, addLoggedFoods] = useState<Food[]>([]); // food array to hold logged foods
-    const [closingMealPage, setClosingMealPage] = useState(false); // variable to check if closing Selected page or not
+  // Navigation
+  const navigate = useNavigate();
 
+  // Panel visibility and animations
+  const [isAddFoodPanelOpen, setIsAddFoodPanelOpen] = useState(false);
+  const [isClosingAddFoodPanel, setIsClosingAddFoodPanel] = useState(false);
+  const [isClosingSelectedFoodPanel, setIsClosingSelectedFoodPanel] =
+    useState(false);
+  const [isClosingMealPage, setIsClosingMealPage] = useState(false);
 
-    const [calculatedFood, setCalculatedFood] = useState({ // another const to hold updated quantity of food macros
-        name: "",
-        grams: 0,
-        calories: 0,
-        protein: 0,
-        carbs: 0,
-        fat: 0
-    });
+  // Food search and selection
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const [searchResults, setSearchResults] = useState<Food[]>([]);
+  const [selectedFood, setSelectedFood] = useState<Food | null>(null);
 
+  // Food quantity and logged foods
+  const [gramsInput, setGramsInput] = useState("");
+  const [loggedFoods, setLoggedFoods] = useState<Food[]>([]);
 
-    // A function to properly close panel (sets closing true then after 140ms setShowAddFood and setClosing are false, meaning panel is no longer displayed after animation and closing is false again)
-    const closeAddFood = () => {
-        setClosingAddP(true); 
+  // Calculate the selected food's macros using the entered quantity.
+  // Food values returned by the API are 100g if there are no entered quantities.
+  const enteredGrams = gramsInput === "" ? 100 : Number(gramsInput);
 
-        setTimeout(() => {
-            setShowAddFood(false);
-            setClosingAddP(false);
-        }, 140);
-    };
+  const calculatedFood: Food | null = selectedFood
+    ? {
+        name: selectedFood.name,
+        grams: enteredGrams,
+        calories: (enteredGrams / 100) * selectedFood.calories,
+        protein: (enteredGrams / 100) * selectedFood.protein,
+        carbs: (enteredGrams / 100) * selectedFood.carbs,
+        fat: (enteredGrams / 100) * selectedFood.fat,
+      }
+    : null;
 
-    const closeSelected = () => {
-        setClosingSelected(true); 
+  // Close the add-food panel after its animation.
+  const closeAddFoodPanel = () => {
+    setIsClosingAddFoodPanel(true);
 
-        setTimeout(() => {
-            setClosingSelected(false);
-            setSelectedFood(null);
-        }, 140);
-    };
+    setTimeout(() => {
+      setIsAddFoodPanelOpen(false);
+      setIsClosingAddFoodPanel(false);
+    }, 140);
+  };
 
-    const closeMealPage = () => {
-        setClosingMealPage(true); 
+  // Close the selected-food panel.
+  const closeSelectedFoodPanel = () => {
+    setIsClosingSelectedFoodPanel(true);
 
-        setTimeout(() => {
-            navigate(-1)
-            setClosingMealPage(false);
-        }, 140);
-    };
+    setTimeout(() => {
+      setSelectedFood(null);
+      setIsClosingSelectedFoodPanel(false);
+      setGramsInput("");
+    }, 140);
+  };
 
-    const loggedFood = () => {
+  // Return to the previous page.
+  const closeMealPage = () => {
+    setIsClosingMealPage(true);
 
-        // remove null case
-        if (selectedFood == null){
-            return;
-        }
+    setTimeout(() => {
+      navigate(-1);
+      setIsClosingMealPage(false);
+    }, 140);
+  };
 
-        // if user hasn't edited grams, add default 100g, else then add edited. (... to not add arrays in loggedFoods array)
-        if (calcGrams === "") {
-            addLoggedFoods([
-                ...loggedFoods,
-                { ...selectedFood, grams: 100 }
-            ]);
-        } else {
-            addLoggedFoods([...loggedFoods, calculatedFood]);
-        }
+  // Search the backend for foods.
+  const searchFoods = async () => {
+    try {
+      const searchParams = new URLSearchParams({
+        search: searchQuery,
+      });
 
-        setCalcGrams("");
+      const response = await fetch(
+        `http://localhost:3000/api/foods?${searchParams}`,
+      );
 
-        closeAddFood();
+      if (!response.ok) {
+        throw new Error("Food search failed.");
+      }
 
-        setTimeout(() => {
-            setSelectedFood(null);
-        }, 140);
-    };
+      const responseData: unknown = await response.json();
 
-    // For all the logged foods, sum all calories and macros using reduce
-    const loggedTotals = loggedFoods.reduce(
-        (total, food) => ({
-            calories: total.calories + food.calories,
-            carbs: total.carbs + food.carbs,
-            protein: total.protein + food.protein,
-            fat: total.fat + food.fat
-        }),
-        {
-            calories: 0,
-            carbs: 0,
-            protein: 0,
-            fat: 0
-        }
-    );
+      if (Array.isArray(responseData)) {
+        setSearchResults(responseData as Food[]);
+      } else {
+        setSearchResults([]);
+      }
+    } catch (error) {
+      console.error("Error searching for foods:", error);
+      setSearchResults([]);
+    }
+  };
 
-    // searchFood variable that connects to the free openfoodfacts which is a free api, this uses my backend which is local 3000 for no CORS
-    const searchFood = async () => {
-        const response = await fetch(
-            `http://localhost:3000/api/foods?search=${search}`
-        );
+  // Add the selected food to breakfast.
+  const handleLogFood = () => {
+    if (!calculatedFood || !selectedFood) {
+      return;
+    }
 
-        const data = await response.json();
+    setLoggedFoods((previousLoggedFoods) => [
+      ...previousLoggedFoods,
+      calculatedFood,
+    ]);
 
-        // Make sure we only add Arraytypes since that is the state we are using
-        if (Array.isArray(data)) {
-            setFoods(data);
-        } else {
-            console.log(data.error);
-            setFoods([]);
-        }
-    };
+    setGramsInput("");
+    closeAddFoodPanel();
 
-    // Calculates the macros of new food
-    const calcMacros = (gramsInput: string) => {
-        if (!selectedFood) {
-            return;
-        }
+    setTimeout(() => {
+      setSelectedFood(null);
+    }, 140);
+  };
 
-        const grams = Number(gramsInput);
+  // Calculate total calories and macros for breakfast.
+  const mealTotals = loggedFoods.reduce(
+    (total, food) => ({
+      calories: total.calories + food.calories,
+      carbs: total.carbs + food.carbs,
+      protein: total.protein + food.protein,
+      fat: total.fat + food.fat,
+    }),
+    {
+      calories: 0,
+      carbs: 0,
+      protein: 0,
+      fat: 0,
+    },
+  );
 
-        setCalculatedFood({
-            name: selectedFood.name,
-            grams: grams,
-            calories: (grams / 100) * selectedFood.calories,
-            protein: (grams / 100) * selectedFood.protein,
-            carbs: (grams / 100) * selectedFood.carbs,
-            fat: (grams / 100) * selectedFood.fat
-        });
-    };
+  return (
+    <div
+      className={
+        isClosingMealPage
+          ? "meal-page slide-right-animation"
+          : "meal-page slide-left-animation"
+      }
+    >
+      {/* Page header */}
+      <div className="selected-meal-bar">
+        <button
+          className="back-button"
+          onClick={closeMealPage} // go back a page when clicked
+        >
+          &lt;
+        </button>
 
-    return (
-        <div className={closingMealPage == true ? "SelectPage slideRightAnimation" : "SelectPage slideLeftAnimation"}>
+        <p className="selected-meal-name">Breakfast</p>
 
-            {/* Top for category */}
-            <div className="category">
+        <button className="more-button">
+          <span>⋯</span>
+        </button>
+      </div>
 
-                <button 
-                    className="backButton"
-                    onClick={closeMealPage} // go back a page when clicked
-                >
-                    &lt;
-                </button>
+      {/* Date navigation */}
+      <p className="date">Date rotator</p>
 
-                <p className="categoryFont">Breakfast</p>
+      {/* Logged foods and meal totals */}
+      <div className="logged-food-section">
+        {loggedFoods.map((food, index) => (
+          <div className="logged-foods" key={index}>
+            <h3 className="logged-name">{food.name}</h3>
 
-                <button className = "moreButton"> 
-                    <span>⋯</span>
-                </button>
+            <div className="show-logged-cal-quan">
+              <p className="logged-calories">
+                {Math.round(food.calories)} cals
+              </p>
 
-
+              <p className="logged-quantity">{Math.round(food.grams)}g</p>
             </div>
+          </div>
+        ))}
 
-            {/* chunk for the date */}
-            <p className="date">Date rotator
+        <div className="calorie-sum-box">
+          <div className="word-meal-total">Breakfast Total</div>
 
-            </p>
-
-            {/* Bottom piece to control adding foods ect */}
-            <div className="food_area">
-
-                {/* Map all loggedFoods with their macros ect in a div respective to their index*/}
-                {loggedFoods.map((food, index) => (
-                    <div className="loggedFoods" key={index}>
-                        <h3 className="loggedName">
-                            {food.name}
-                        </h3>
-
-                        <div className="showLoggedCalQuan">
-
-                            <p className="loggedCalories">
-                                {Math.round(food.calories)} cals
-                            </p>
-
-                            <p className="loggedQuantity">
-                                {Math.round(food.grams)}g
-
-                            </p>
-                        </div>
-
-
-                    </div>
-                ))}
-
-
-                <div className="calorieSumBox">
-
-                    <div className="wordMealTotal"> 
-                        Breakfast Total
-                    </div>
-
-                    <div className="wordtotalCals">
-                        {Math.round(loggedTotals.calories)} cals 
-                    </div>
-
-                </div>
-
-                <div className="macroSumBox">
-                    <p className="wordMealMacros">Breakfast Macros</p>
-                    <p className="wordCarbs">Carbs: {Math.round(loggedTotals.carbs)}g</p>
-                    <p className="wordProtein">Protein: {Math.round(loggedTotals.protein)}g</p>
-                    <p className="wordFat">Fat: {Math.round(loggedTotals.fat)}g</p>
-                </div>
-
-
-                <button 
-                    className = "addButton"
-                    onClick={() => setShowAddFood(true)} // when clicked turn state to true
-                    > 
-                    {/* literal plus icon here */}
-                    + 
-                </button>
-
-
-            </div>
-
-            {/* When  setShowAddFood is True*/}
-            {showAddFood && (
-                // Checks state of closing, if true then have the panel slideDown, if false add food panel with slideUp
-                <div className={closingAddP ? "addFoodPanel slideDownAnimation" : "addFoodPanel slideUpAnimation"}>
-
-                    <button className="closeButton" onClick={closeAddFood}>
-                        X
-                    </button>
-
-                    <div className = "foodSearchWord">
-                        Food Search
-                    </div>
-
-                    <div className = "bigSearchWord">
-                        Search
-                    </div>
-
-                    <div className = "searchBar">
-                        {/* Making user clicked search bar work*/}
-                        <input
-                            type="text"
-                            placeholder="Search for a food"
-                            value = {search}
-                            onChange={(event) => setSearch(event.target.value)} // fill the variable that holds our search bar information and actually registers it
-
-                            onKeyDown={(event) => { // make hitting enter on keyboard or mobile keyboard checkmark work
-                            if (event.key === "Enter") {
-                                searchFood();
-                            }
-                        }}
-                        />
-                    </div>
-
-                    {/* Big zone that contains each search result*/}
-                    <div className="foodResults">
-                        
-                        {foods.map((food, index) => (
-                            <button 
-                                className="foodResult" 
-                                key={index}
-                                onClick={() => setSelectedFood(food)}
-                            >
-                                
-                                <div className="foodName">
-                                    <div className="foodNameText">
-                                        {food.name}
-                                    </div>
-                                </div>
-
-                                <div className="foodStats"> 
-
-                                    <p className="calories">
-                                        {Math.round(food.calories)} cals               
-                                    </p>
-                                    
-                                    {/* All macronutrients are currently based off 100g*/}
-                                    <div className="foodGrams">                                
-                                        <p>100g</p>
-                                    </div>
-
-                                </div>
-
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* When a food has been selected*/}
-                    {selectedFood && (
-
-                        // If closing mode is true, display the selectedFoodpage with closing animation, if false, vise versa
-                        <div className={closingSelected ? "selectedFood slideRightAnimation" : "selectedFood slideLeftAnimation"}>
-
-                            {/* When clicked, run function to close out of the page properly*/}
-                            <button 
-                                className="closeButton" 
-                                onClick={closeSelected}
-                            >
-
-                                X
-                            </button>
-
-                            <h2 className = "selectedName">
-                                {selectedFood.name}
-                            </h2>
-
-                            <div className="calCalc">
-
-                                <div className="userGrams">
-
-                                    <input className="gramsBar"
-                                        type="number"
-                                        placeholder="grams"
-                                        value={calcGrams}
-
-                                        /* everytime a new gram is typed, update setCalcGrams and then call function to update values live*/                        
-                                        onChange={(event) => {
-                                            setCalcGrams(event.target.value);
-                                            calcMacros(event.target.value);
-                                        }}
-                                    />
-
-                                    <h2 className="showGrams">
-                                        {calcGrams === ""
-                                            ? 100
-                                            : calcGrams
-                                        } grams
-                                    </h2>
-
-                                </div>
-
-                                <div className="userCalories">
-
-                                    {/* display updated cals only if user changed*/}
-                                    <h2>
-                                        {calcGrams === ""
-                                            ? Math.round(selectedFood.calories)
-                                            : Math.round(calculatedFood.calories)
-                                        } calories  
-                                    </h2>
-                                    
-                                </div>
-
-                            </div>
-
-
-                            <div className="unitType">
-
-                                <button className="unitButton">
-                                    Grams
-                                </button>
-
-                                <button className="unitButton">
-                                    TBSP
-                                </button>
-
-                                <button className="unitButton">
-                                    Cup
-                                </button>
-
-                                <button className="unitButton">
-                                    OZ
-                                </button>
-
-                            </div>
-
-                            <div className="macros">
-
-                                <h2>Carbs: 
-                                    {calcGrams === ""
-
-                                        ? Math.round(selectedFood.carbs)
-                                        : Math.round(calculatedFood.carbs)
-                                    }g
-                                </h2>
-                            
-                                <h2>Protein:                                     
-                                    {calcGrams === ""
-                                        ? Math.round(selectedFood.protein)
-                                        : Math.round(calculatedFood.protein)
-                                    }g
-                                </h2>
-
-
-                                <h2>Fat:                                     
-                                    {calcGrams === ""
-                                        ? Math.round(selectedFood.fat)
-                                        : Math.round(calculatedFood.fat)
-                                    }g
-                                </h2>
-
-                            </div>
-
-                            <button 
-                                className="logButton"
-                                onClick={loggedFood}
-                            >
-                                Log
-                            </button>
-
-                        </div>
-                    )}
-
-                </div>
-            )}
-
+          <div className="word-total-cals">
+            {Math.round(mealTotals.calories)} cals
+          </div>
         </div>
-    );
+
+        <div className="macro-sum-box">
+          <p className="word-meal-macros">Breakfast Macros</p>
+
+          <p className="word-carbs">Carbs: {Math.round(mealTotals.carbs)}g</p>
+
+          <p className="word-protein">
+            Protein: {Math.round(mealTotals.protein)}g
+          </p>
+
+          <p className="word-fat">Fat: {Math.round(mealTotals.fat)}g</p>
+        </div>
+
+        <button
+          className="add-button"
+          onClick={() => setIsAddFoodPanelOpen(true)} // when clicked turn state to true
+        >
+          +
+        </button>
+      </div>
+
+      {/* Food Searching Panel */}
+      {isAddFoodPanelOpen && (
+        <div
+          className={
+            isClosingAddFoodPanel
+              ? "add-food-panel slide-down-animation"
+              : "add-food-panel slide-up-animation"
+          }
+        >
+          <button
+            className="close-food-search-button"
+            onClick={closeAddFoodPanel}
+          >
+            X
+          </button>
+
+          <div className="food-search-word">Food Search</div>
+
+          <div className="big-search-word">Search</div>
+
+          {/* Food search input */}
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="Search for a food"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  searchFoods();
+                }
+              }}
+            />
+          </div>
+
+          {/* Search results */}
+          <div className="food-results">
+            {searchResults.map((food, index) => (
+              <button
+                className="food-result"
+                key={index}
+                onClick={() => {
+                  setSelectedFood(food);
+                  setGramsInput("");
+                }}
+              >
+                <div className="food-name">
+                  <div className="food-name-text">{food.name}</div>
+                </div>
+
+                <div className="food-stats">
+                  <p className="calories">{Math.round(food.calories)} cals</p>
+
+                  <div className="food-grams">
+                    <p>100g</p>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {/* Logging-food panel */}
+          {selectedFood && (
+            <div
+              className={
+                isClosingSelectedFoodPanel
+                  ? "selected-food slide-right-animation"
+                  : "selected-food slide-left-animation"
+              }
+            >
+              <button
+                className="close-logging-food-button"
+                onClick={closeSelectedFoodPanel}
+              >
+                X
+              </button>
+
+              <h2 className="selected-name">{selectedFood.name}</h2>
+
+              {/* Quantity and calories */}
+              <div className="cal-calc">
+                <div className="user-grams">
+                  <input
+                    className="grams-bar"
+                    type="number"
+                    min="0"
+                    placeholder="grams"
+                    value={gramsInput}
+                    onChange={(event) => setGramsInput(event.target.value)}
+                  />
+
+                  <h2 className="show-grams">{enteredGrams} grams</h2>
+                </div>
+                {calculatedFood && (
+                  <div className="user-calories">
+                    <h2>{Math.round(calculatedFood.calories)} calories</h2>
+                  </div>
+                )}
+              </div>
+
+              {/* Quantity units */}
+              <div className="unit-type">
+                <button className="unit-button">Grams</button>
+
+                <button className="unit-button">TBSP</button>
+
+                <button className="unit-button">Cup</button>
+
+                <button className="unit-button">OZ</button>
+              </div>
+
+              {/* Calculated macros */}
+              {calculatedFood && (
+                <div className="macros">
+                  <h2>Carbs: {Math.round(calculatedFood.carbs)}g</h2>
+
+                  <h2>Protein: {Math.round(calculatedFood.protein)}g</h2>
+
+                  <h2>Fat: {Math.round(calculatedFood.fat)}g</h2>
+                </div>
+              )}
+
+              <button
+                className="log-button"
+                onClick={handleLogFood}
+                disabled={enteredGrams <= 0 || !Number.isFinite(enteredGrams)}
+              >
+                Log
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default Breakfast; // Allows other files to import this
