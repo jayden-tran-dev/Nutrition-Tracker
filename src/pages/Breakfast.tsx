@@ -1,13 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Food = {
+  id: number;
   name: string;
   grams: number;
   calories: number;
-  protein: number;
   carbs: number;
+  protein: number;
   fat: number;
+  meal: string;
+  logged_at: string;
 };
 
 // Main breakfast page
@@ -32,18 +35,47 @@ function Breakfast() {
   const [gramsInput, setGramsInput] = useState("");
   const [loggedFoods, setLoggedFoods] = useState<Food[]>([]);
 
+  // Call for logged foods from database on launch
+  useEffect(() => {
+    async function loadLoggedFoods() {
+      const response = await fetch(
+        "http://localhost:3000/api/food-logs?meal=Breakfast",
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to load food logs");
+      }
+
+      const foods: Food[] = (await response.json()).map((food: Food) => ({
+        ...food,
+        grams: Number(food.grams),
+        calories: Number(food.calories),
+        carbs: Number(food.carbs),
+        protein: Number(food.protein),
+        fat: Number(food.fat),
+      }));
+
+      setLoggedFoods(foods);
+    }
+
+    loadLoggedFoods().catch(console.error);
+  }, []);
+
   // Calculate the selected food's macros using the entered quantity.
   // Food values returned by the API are 100g if there are no entered quantities.
   const enteredGrams = gramsInput === "" ? 100 : Number(gramsInput);
 
   const calculatedFood: Food | null = selectedFood
     ? {
+        id: selectedFood.id,
         name: selectedFood.name,
         grams: enteredGrams,
         calories: (enteredGrams / 100) * selectedFood.calories,
-        protein: (enteredGrams / 100) * selectedFood.protein,
         carbs: (enteredGrams / 100) * selectedFood.carbs,
+        protein: (enteredGrams / 100) * selectedFood.protein,
         fat: (enteredGrams / 100) * selectedFood.fat,
+        meal: selectedFood.meal,
+        logged_at: selectedFood.logged_at,
       }
     : null;
 
@@ -107,14 +139,31 @@ function Breakfast() {
   };
 
   // Add the selected food to breakfast.
-  const handleLogFood = () => {
+  const handleLogFood = async () => {
     if (!calculatedFood || !selectedFood) {
       return;
     }
 
+    const response = await fetch("http://localhost:3000/api/food-logs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...calculatedFood,
+        meal: "Breakfast",
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to save food");
+    }
+
+    const savedFood: Food = await response.json();
+
     setLoggedFoods((previousLoggedFoods) => [
       ...previousLoggedFoods,
-      calculatedFood,
+      savedFood,
     ]);
 
     setGramsInput("");

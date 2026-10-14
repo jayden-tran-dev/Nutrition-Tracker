@@ -26,10 +26,11 @@ pool.query("SELECT NOW()", (error, result) => {
 
 // Middleware
 app.use(cors());
+app.use(express.json());
 
 // Basic Routes
 
-// Backend health check
+// Working backend check
 app.get("/", (req, res) => {
   res.send("Backend is working!");
 });
@@ -90,8 +91,62 @@ app.get("/api/foods", async (req, res) => {
   }
 });
 
-// Database Test Routes
+// Send back logged foods from database
+app.get("/api/food-logs", async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT
+        id,
+        food_name AS name,
+        grams,
+        calories,
+        carbs,
+        protein,
+        fat,
+        meal,
+        logged_at
+      FROM food_logs
+      WHERE meal = $1`,
+      [req.query.meal],
+    );
 
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Failed to load food logs:", error);
+    res.status(500).json({ error: "Failed to load food logs" });
+  }
+});
+
+// Save a logged food to PostgreSQL.
+app.post("/api/food-logs", async (req, res) => {
+  const { name, grams, calories, protein, carbs, fat, meal } = req.body;
+
+  try {
+    const result = await pool.query(
+      `INSERT INTO food_logs
+            (food_name, grams, calories, carbs, protein, fat, meal)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
+            RETURNING
+                id,
+                food_name AS name,
+                grams,
+                calories,
+                carbs,
+                protein,
+                fat,
+                meal,
+                logged_at`,
+      [name, grams, calories, carbs, protein, fat, meal],
+    );
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error("Failed to save food:", error);
+    res.status(500).json({ error: "Failed to save food" });
+  }
+});
+
+// Database Test Routes
 // Get all foods from PostgreSQL
 app.get("/api/test-foods", async (req, res) => {
   try {
