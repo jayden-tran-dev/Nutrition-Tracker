@@ -34,3 +34,8 @@ CREATE TABLE users (
 {/* Create a column named user_id in food_logs and each user_id must exist in the users table */}
 ALTER TABLE food_logs
 ADD COLUMN user_id INTEGER REFERENCES users(id);
+
+{/* Setting null user_id's to 1 */}
+UPDATE food_logs
+SET user_id = 1
+WHERE user_id IS NULL;

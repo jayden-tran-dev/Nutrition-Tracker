@@ -16,6 +16,7 @@ import {
   CustomFoods,
   DietReview,
   Water,
+  Login,
 } from "./pages";
 
 import "./App.css";
@@ -30,6 +31,7 @@ const pageRoutes = [
   { path: "/customfoods", element: <CustomFoods /> },
   { path: "/dietreview", element: <DietReview /> },
   { path: "/water", element: <Water /> },
+  { path: "/Login", element: <Water /> },
 ];
 
 // Home page
@@ -173,8 +175,8 @@ function AppRoutes() {
     <>
       {/* Main routes, using the background page when available. */}
       <Routes location={backgroundLocation || location}>
-        <Route path="/" element={<Home />} />
-
+        <Route path="/" element={<Login />} />{" "}
+        {/* Maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaain routes, using the background page when available. */}
         {pageRoutes.map((page) => (
           <Route key={page.path} path={page.path} element={page.element} />
         ))}

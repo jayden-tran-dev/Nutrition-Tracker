@@ -25,7 +25,205 @@ button {
 }
 
 /* ========================================
-   2. Home Page
+   2. Login Page
+   ======================================== */
+
+/* Login Page Layout */
+.log-in-page-layout {
+  display: grid;
+  grid-template-rows: 20% 8% auto auto auto;
+  justify-items: center;
+  align-content: start;
+  gap: 24px;
+
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+
+  background: #e2fff4;
+  font-family: Arial, sans-serif;
+}
+
+/* App Name Section */
+.app-name {
+  align-self: end;
+  color: #26345c;
+  font-size: clamp(24px, 3vw, 50px);
+  text-align: center;
+}
+
+/* Onboarding Section */
+.onboarding-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  padding: 5px;
+  border: 2px solid black;
+  border-radius: 8px;
+  background: white;
+}
+
+.choose-log-in-button,
+.choose-sign-up-button {
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #333;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.active {
+  background: #c8fdeb;
+  color: #205d49;
+}
+
+/* Credentials Section */
+.credentials-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+.name-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.email-field,
+.password-field,
+.first-name-field,
+.last-name-field,
+.confirm-password-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+
+  min-width: 0;
+  color: #26345c;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.email-field input,
+.password-field input,
+.first-name-field input,
+.last-name-field input,
+.confirm-password-field input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 13px;
+
+  border: 1px solid #cbd5d1;
+  border-radius: 9px;
+  background: white;
+  color: #222;
+  font-size: 15px;
+  outline: none;
+}
+
+.email-field input:focus,
+.password-field input:focus,
+.first-name-field input:focus,
+.last-name-field input:focus,
+.confirm-password-field input:focus {
+  border-color: #319b78;
+  box-shadow: 0 0 0 3px #319b7820;
+}
+
+/* Type Of Onboarding Button Section */
+.onboarding-type-button {
+  width: 100%;
+  padding: 14px;
+
+  border: none;
+  border-radius: 9px;
+  background: #319b78;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.onboarding-type-button:hover {
+  background: #267d60;
+}
+
+/* Continue With Section */
+.continue-with-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  width: 100%;
+  max-width: 400px;
+}
+
+.or-continue-with {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #59645f;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.or-continue-with::before,
+.or-continue-with::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #cbd5d1;
+}
+
+.log-in-with-google,
+.log-in-with-apple {
+  padding: 12px;
+  border: 1px solid #cbd5d1;
+  border-radius: 9px;
+  background: white;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.log-in-with-google:hover,
+.log-in-with-apple:hover {
+  background: #f0f8f4;
+}
+
+/* Small Screens */
+@media (max-width: 480px) {
+  .log-in-page-layout {
+    padding: 40px 18px;
+    gap: 20px;
+  }
+
+  .app-name {
+    font-size: 26px;
+  }
+}
+
+/* ========================================
+   3. Home Page
    ======================================== */
 
 /* Home Page Center Alignment */
@@ -183,7 +381,7 @@ button {
 }
 
 /* ========================================
-   3. Meal Type Page
+   4. Meal Type Page
    ======================================== */
 
 /* Meal Page Layout */
@@ -400,7 +598,7 @@ button {
 }
 
 /* ========================================
-   4. Search Foods Page
+   5. Search Foods Page
    ======================================== */
 
 /* Search Foods Page Layout */
@@ -530,7 +728,7 @@ button {
 }
 
 /* ========================================
-   5. Food Logging Panel
+   6. Food Logging Panel
    ======================================== */
 
 /* Food Logging Panel Layout */
@@ -630,7 +828,7 @@ button {
 }
 
 /* ========================================
-   6. Workout Page (In progress)
+   7. Workout Page (In progress)
    ======================================== */
 
 .workout_red_box {
@@ -649,7 +847,7 @@ button {
 }
 
 /* ========================================
-   7. Animations
+   8. Animations
    ======================================== */
 
 /* Animation Classes */
