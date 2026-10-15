@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
+
   const [isSignUp, setIsSignUp] = useState(false);
 
   const [firstName, setFirstName] = useState("");
@@ -8,6 +11,69 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  // Function To Handle When Registers New Account
+  async function handleSignUp() {
+    try {
+      if (password !== confirmPassword) {
+        alert("Passwords do not match");
+        return;
+      }
+
+      const response = await fetch("http://localhost:3000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.error);
+        return;
+      }
+    } catch (error) {
+      alert("Unable to connect to the server.");
+      console.error(error);
+    }
+  }
+
+  // Function To Handle When User Logs In
+  async function handleLogin() {
+    try {
+      const response = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.error);
+        return;
+      }
+
+      navigate("/home");
+    } catch (error) {
+      alert("Unable to connect to the server.");
+      console.error(error);
+    }
+  }
 
   return (
     <div className="log-in-page-layout">
@@ -37,7 +103,18 @@ function Login() {
       </div>
 
       {/* Credentials Section */}
-      <form className="credentials-container">
+      <form
+        className="credentials-container"
+        onSubmit={(event) => {
+          event.preventDefault();
+
+          if (isSignUp) {
+            handleSignUp();
+          } else {
+            handleLogin();
+          }
+        }}
+      >
         {isSignUp && (
           <div className="name-fields">
             <label className="first-name-field">

@@ -50,6 +50,25 @@ function Home() {
     });
   }
 
+  // Function To Log The User Out
+  async function handleLogout() {
+    try {
+      const response = await fetch("http://localhost:3000/api/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Logout failed");
+      }
+
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      alert("Unable to log out. Please try again.");
+    }
+  }
+
   return (
     <div className="center">
       {/* Menu button and dropdown */}
@@ -69,6 +88,9 @@ function Home() {
             <a href="food.html">Settings</a>
             <a href="workout.html">Darkmode</a>
             <a href="settings.html">More themes</a>
+            <button className="Logout" onClick={handleLogout}>
+              Logout
+            </button>
           </div>
         )}
       </div>
@@ -176,7 +198,7 @@ function AppRoutes() {
       {/* Main routes, using the background page when available. */}
       <Routes location={backgroundLocation || location}>
         <Route path="/" element={<Login />} />{" "}
-        {/* Maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaain routes, using the background page when available. */}
+        <Route path="/home" element={<Home />} />
         {pageRoutes.map((page) => (
           <Route key={page.path} path={page.path} element={page.element} />
         ))}

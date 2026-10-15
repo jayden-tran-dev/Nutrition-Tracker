@@ -40,6 +40,9 @@ function Breakfast() {
     async function loadLoggedFoods() {
       const response = await fetch(
         "http://localhost:3000/api/food-logs?meal=Breakfast",
+        {
+          credentials: "include",
+        },
       );
 
       if (!response.ok) {
@@ -149,6 +152,7 @@ function Breakfast() {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({
         ...calculatedFood,
         meal: "Breakfast",
@@ -161,9 +165,18 @@ function Breakfast() {
 
     const savedFood: Food = await response.json();
 
+    const formattedFood: Food = {
+      ...savedFood,
+      grams: Number(savedFood.grams),
+      calories: Number(savedFood.calories),
+      carbs: Number(savedFood.carbs),
+      protein: Number(savedFood.protein),
+      fat: Number(savedFood.fat),
+    };
+
     setLoggedFoods((previousLoggedFoods) => [
       ...previousLoggedFoods,
-      savedFood,
+      formattedFood,
     ]);
 
     setGramsInput("");
