@@ -64,6 +64,20 @@ function Breakfast() {
     loadLoggedFoods().catch(console.error);
   }, []);
 
+  // Function To Remove A Food
+  async function handleDeleteFood(id: number) {
+    const response = await fetch(`http://localhost:3000/api/food-logs/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete food");
+    }
+
+    setLoggedFoods((foods) => foods.filter((food) => food.id !== id));
+  }
+
   // Calculate the selected food's macros using the entered quantity.
   // Food values returned by the API are 100g if there are no entered quantities.
   const enteredGrams = gramsInput === "" ? 100 : Number(gramsInput);
@@ -242,6 +256,15 @@ function Breakfast() {
               </p>
 
               <p className="logged-quantity">{Math.round(food.grams)}g</p>
+            </div>
+
+            <div className="trash-button-circle">
+              <button
+                className="trash-button"
+                onClick={() => handleDeleteFood(food.id)}
+              >
+                🗑️
+              </button>
             </div>
           </div>
         ))}

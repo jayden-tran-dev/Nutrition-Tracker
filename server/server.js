@@ -164,6 +164,31 @@ app.post("/api/food-logs", async (req, res) => {
   }
 });
 
+// Delete A Logged Food From Database
+app.delete("/api/food-logs/:id", async (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: "Not logged in" });
+  }
+
+  try {
+    const result = await pool.query(
+      `DELETE FROM food_logs
+       WHERE id = $1 AND user_id = $2
+       RETURNING id`,
+      [req.params.id, req.session.userId],
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Food not found" });
+    }
+
+    res.sendStatus(204);
+  } catch (error) {
+    console.error("Failed to delete food:", error);
+    res.status(500).json({ error: "Failed to delete food" });
+  }
+});
+
 // Adds a user to PostgreSQL For Registration.
 app.post("/api/register", async (req, res) => {
   const { firstName, lastName, email, password } = req.body;

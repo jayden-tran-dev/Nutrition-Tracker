@@ -459,23 +459,27 @@ button {
 
 .logged-foods {
   display: grid;
-  grid-template-columns: 75% 25%;
+  grid-template-columns: 60% 25% 15%;
   width: 100%;
   height: 8vh;
   flex-shrink: 0;
   background-color: rgb(64, 193, 103);
   color: black;
   border: 1px solid #000000;
+  align-items: center;
 }
 
 .logged-name {
-  display: flex;
-  grid-column: 1;
-  align-items: center;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+
   padding-left: 2vw;
   font-size: 2vh;
   font-weight: 500;
   text-align: start;
+  line-height: 3.1vh;
 }
 
 .show-logged-cal-quan {
@@ -484,6 +488,35 @@ button {
   grid-template-rows: 50% 50%;
   padding-right: 2vw;
   color: rgb(60, 13, 104);
+}
+
+.trash-button-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  justify-self: center;
+  align-self: center;
+
+  width: 5vh;
+  height: 5vh;
+  padding-right: 0.5px;
+  padding-top: 0.5px;
+
+  border: 1px solid #000;
+  border-radius: 50%;
+  background-color: #ff4242;
+  cursor: pointer;
+}
+
+.trash-button {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
 }
 
 .logged-calories {
